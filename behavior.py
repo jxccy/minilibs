@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import json
 import random
-from time import sleep
+import time
 
 import requests
 
@@ -14,6 +14,7 @@ def get_body():
     res = [get_userid(), get_itemid()]
     for i in range(10):
         res.append(get_score())
+    res.append(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     return '|'.join(res)
 
 
@@ -27,4 +28,4 @@ def request():
 if __name__ == '__main__':
     while True:
         request()
-        sleep(1)
+        time.sleep(1)
