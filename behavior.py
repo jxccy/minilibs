@@ -14,7 +14,7 @@ def get_body():
     res = [get_userid(), get_itemid()]
     res.extend(map(lambda x: str(x), get_scores(10)))
     res.append(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
-    print('|'.join(res))
+    # print('|'.join(res))
     return '|'.join(res)
 
 
