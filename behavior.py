@@ -7,14 +7,14 @@ import requests
 
 get_userid = lambda: str(int(random.random() * 10 ** 6))
 get_itemid = lambda: str(int(random.random() * 10 ** 9))
-get_score = lambda: str(random.choice(range(10)))
+get_scores = lambda x: random.choices(range(10), k=x)
 
 
 def get_body():
     res = [get_userid(), get_itemid()]
-    for i in range(10):
-        res.append(get_score())
+    res.extend(map(lambda x: str(x), get_scores(10)))
     res.append(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+    print('|'.join(res))
     return '|'.join(res)
 
 
