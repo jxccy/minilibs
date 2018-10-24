@@ -14,16 +14,14 @@ def get_body():
     res = [get_userid(), get_itemid()]
     res.extend(map(lambda x: str(x), get_scores(10)))
     res.append(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
-    # print('|'.join(res))
     return '|'.join(res)
 
 
 def request():
     headers = {"h1": "v1", "h2": "v2"}
-    data = [{'headers': headers}, {'body': get_body()}]
+    data = [{'headers': headers, 'body': get_body()}]
     url = 'http://192.168.0.161:50000'
-    requests.post(url=url, data=json.dumps(data))
-
+    res = requests.post(url=url, data=json.dumps(data))
 
 if __name__ == '__main__':
     while True:
