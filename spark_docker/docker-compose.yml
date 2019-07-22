@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+
+  master:
+    image: spark
+    container_name: spark-master
+    command: bin/spark-class org.apache.spark.deploy.master.Master  --port 7077
+    ports:
+      - 7077:7077
+      - 8081:8080
+    networks:
+      - net
+
+  worker1:
+    image: spark
+    container_name: spark-worker1
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker --webui-port 8080 spark://spark-master:7077
+    depends_on:
+      - master
+    ports:
+      - 8082:8080
+    networks:
+      - net
+
+  worker2:
+    image: spark
+    container_name: spark-worker2
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker --webui-port 8080 spark://spark-master:7077
+    depends_on:
+      - master
+    ports:
+      - 8083:8080
+    networks:
+      - net
+
+  driver:
+    image: spark
+    container_name: spark-driver
+    command: ./bin/spark-submit   --class   org.apache.spark.examples.SparkPi   --master   spark://spark-master:7077 --total-executor-cores 2 --executor-memory 512M examples/jars/spark-examples_2.11-2.3.2.jar
+    depends_on:
+      - master
+      - worker1
+      - worker2
+    networks:
+      - net
+
+
+
+networks:
+  net:

@@ -14,11 +14,11 @@ values = [605.83, 1670.44, 2102.21, 2522.66, 5020.37, 5701.84, 6610.05, 8893.12,
           21026.68, 22226.7, 24515.76, 26931.03, 32318.85, 45361.85, 49110.27, 53210.28]
 range_color = ["#D6EAF8", "#00FFFF"]
 
-cmap = Map() \
-    .add("商家A", [list(z) for z in zip(names, values)], "china", is_map_symbol_show=False) \
+cmap = (Map() 
+    .add("商家A", [list(z) for z in zip(names, values)], "china", is_map_symbol_show=False) 
     .set_global_opts(
     title_opts=opts.TitleOpts(title="Map-VisualMap（连续型）"),
     legend_opts=opts.LegendOpts(is_show=False),
-    visualmap_opts=opts.VisualMapOpts(min_=0, max_=60000, range_color=range_color))
+    visualmap_opts=opts.VisualMapOpts(min_=0, max_=60000, range_color=range_color)))
 
 cmap.render('cmap.html')

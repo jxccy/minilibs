@@ -57,6 +57,7 @@ class HangYe(object):
             try:
                 res = requests.get(url, headers=headers, proxies={'http': 'http://pp2.iops.cc:20151'}, timeout=30)
             except:
+                cls.make_logo(file_name, df.loc[index]['区域'])
                 continue
             with open(file_name, 'wb') as wf:
                 wf.write(res.content)
@@ -71,6 +72,8 @@ class HangYe(object):
                     os.remove(file_name)
                     print('成功删除%s' % file_name)
                     cls.make_logo(file_name, df.loc[index]['区域'])
+            else:
+                cls.make_logo(file_name, df.loc[index]['区域'])
 
     @classmethod
     def count_make_logo(cls):
@@ -100,6 +103,7 @@ class HangYe(object):
             Captcha.make_logo(abbreviation, file_name, color=color)
         else:
             Captcha.make_other_logo(abbreviation, file_name, color=color)
+        print('make logo %s' % file_name)
 
     @classmethod
     def add_logo(cls):
