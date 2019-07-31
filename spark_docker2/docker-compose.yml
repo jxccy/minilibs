@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+
+  master:
+    image: pyspark
+    container_name: spark-master
+    command: bin/spark-class org.apache.spark.deploy.master.Master  --port 7077
+    ports:
+      - 7077:7077
+      - 8081:8080
+    networks:
+      - net
+
+  worker1:
+    image: pyspark
+    container_name: spark-worker1
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker --webui-port 8080 spark://spark-master:7077
+    depends_on:
+      - master
+    ports:
+      - 8082:8080
+    networks:
+      - net
+
+#  worker2:
+#    image: pyspark
+#    container_name: spark-worker2
+#    command: bin/spark-class org.apache.spark.deploy.worker.Worker --webui-port 8080 spark://spark-master:7077
+#    depends_on:
+#      - master
+#    ports:
+#      - 8083:8080
+#    networks:
+#      - net
+
+  driver:
+    build: ./driver
+    container_name: spark-driver
+    command: ./bin/spark-submit  --master spark://spark-master:7077 /driver/leads_article_recommend.py
+    depends_on:
+      - master
+      - worker1
+    networks:
+      - net
+
+
+networks:
+  net:
